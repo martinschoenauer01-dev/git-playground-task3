@@ -4,6 +4,11 @@ const config = require("./lib/config");
 
 const [command, ...rest] = process.argv.slice(2);
 
+// Returns the message shown by the count command.
+function countMessage(n) {
+  return `You have ${n} ${n === 1 ? "note" : "notes"}.`;
+}
+
 function main() {
   switch (command) {
     case "add": {
@@ -45,14 +50,12 @@ function main() {
       console.log(ok ? `Deleted note #${id}` : `No note #${id} found`);
       break;
     }
-    
-// Returns the message shown by the count command.
-  function countMessage(n) {
-      return "You have ${n} ${n ===1? "note": "notes"}.`;
+    case "count": {
+      console.log(countMessage(store.all().length));
+      break;
     }
-
     default:
-      console.log("Commands: add <text> | list | search <term> | delete <id>");
+      console.log("Commands: add <text> | list | search <term> | delete <id> | count");
       console.log(`(Session locks after ${config.SESSION_TIMEOUT_MINUTES} minutes of inactivity.)`);
   }
 }
